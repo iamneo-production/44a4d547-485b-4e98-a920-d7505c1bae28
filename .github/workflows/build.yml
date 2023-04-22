@@ -1,0 +1,28 @@
+name: Build
+'on':
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+jobs:
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: 44a4d547-485b-4e98-a920-d7505c1bae28
+          SONAR_TOKEN: 811c9a490983734401ba4e491eaefc8bfa7281de
+          args: >-
+            -Dsonar.projectKey=iamneo-production_44a4d547-485b-4e98-a920-d7505c1bae28
+            -Dsonar.organization=iamneo-production
+            -Dsonar.sources=reactapp/src,dotnetapp,reactapp/src
+            -Dsonar.verbose=true
